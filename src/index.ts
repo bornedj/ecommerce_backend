@@ -1,21 +1,13 @@
-//imports
-const { Pool } = require('pg')
+//importing the postgres connection
+const db = require('./db/index')
 
-//setting up the connection with postgres
-const pgSetup: any = async () => {
-    const pool = new Pool({
-        user: "postgres",
-        host: "localhost",
-        password: "postgres",
-        database: "ecommerce",
-        port: 5432
-    });
+//creating the express app
+const express = require('express')
+const app = express();
+const port = 3000;
 
-    const res = await pool.query('SELECT NOW()');
-    await pool.end();
-    console.log(res);
-}
+//adding the routes to the app
 
-pgSetup();
-
-console.log('Hello world');
+app.listen(port, () => {
+    console.log(`App listening on https://localhost:${port}`)
+})
