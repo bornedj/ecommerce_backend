@@ -17,6 +17,14 @@ const query = async (text: string, params: any, callback: any) => {
     return await pool.query(text, params, callback);
 }
 
+//select all users
+const getAllUsers = async () => {
+    const select = await pool.query(
+        "SELECT * FROM users;"
+    );
+    return select.rows;
+}
+
 //function to check if user exists
 const doesUserExist = async (userEmail: string) => {
     const query = await pool.query(`SELECT * FROM users WHERE email = '${userEmail}';`)
@@ -89,7 +97,8 @@ const db = {
     getAllProducts,
     insertProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    getAllUsers
 }
 
 export default db;

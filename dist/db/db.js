@@ -11,6 +11,10 @@ const pool = new pg_1.Pool({
 const query = async (text, params, callback) => {
     return await pool.query(text, params, callback);
 };
+const getAllUsers = async () => {
+    const select = await pool.query("SELECT * FROM users;");
+    return select.rows;
+};
 const doesUserExist = async (userEmail) => {
     const query = await pool.query(`SELECT * FROM users WHERE email = '${userEmail}';`);
     return query.rowCount > 0;
@@ -54,7 +58,8 @@ const db = {
     getAllProducts,
     insertProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    getAllUsers
 };
 exports.default = db;
 //# sourceMappingURL=db.js.map

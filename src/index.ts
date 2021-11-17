@@ -3,6 +3,7 @@ import loginRouter from "./routes/login";
 import registerRouter from "./routes/register";
 import productsRouter from "./routes/products";
 import express from 'express';
+import userRouter from "./routes/users";
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const morgan = require('morgan')
@@ -19,6 +20,7 @@ app.use(morgan('tiny'))
 app.use('/register', registerRouter);
 app.use('/login', loginRouter);
 app.use('/products', productsRouter)
+app.use('/users', userRouter)
 
 
 //listening
