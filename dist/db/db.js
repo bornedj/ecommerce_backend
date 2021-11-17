@@ -31,13 +31,18 @@ const getProductByID = async (productID) => {
     const select = await pool.query(`SELECT * FROM products WHERE id = ${productID}`);
     return select.rows[0];
 };
+const insertProduct = async (name, price, description) => {
+    return await pool.query(`INSERT INTO products(name, price, description, created, modified) VALUES 
+    ('${name}', ${price}, '${description}', to_timestamp(${Date.now()}), to_timestamp(${Date.now()}));`);
+};
 const db = {
     query,
     doesUserExist,
     insertUser,
     loginUser,
     getProductByID,
-    getAllProducts
+    getAllProducts,
+    insertProduct
 };
 exports.default = db;
 //# sourceMappingURL=db.js.map

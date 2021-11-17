@@ -54,6 +54,13 @@ const getProductByID = async (productID: number): Promise<any> => {
     return select.rows[0] // return the unique product information
 }
 
+//insert product
+const insertProduct = async (name: string, price: number, description: string) => {
+    return await pool.query(`INSERT INTO products(name, price, description, created, modified) VALUES 
+    ('${name}', ${price}, '${description}', to_timestamp(${Date.now()}), to_timestamp(${Date.now()}));`
+    );
+}
+
 // const loginUser = async (username: string, )
 const db = {
     query,
@@ -61,7 +68,8 @@ const db = {
     insertUser,
     loginUser,
     getProductByID,
-    getAllProducts
+    getAllProducts,
+    insertProduct
 }
 
 export default db;

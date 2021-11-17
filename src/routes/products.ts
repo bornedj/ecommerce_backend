@@ -26,4 +26,10 @@ productsRouter.get('/:productID', (req: GetProductByID, res: Response) => {
     res.send(req.product);
 })
 
+//create new product
+productsRouter.post('/', async (req: Request, res: Response) => {
+    await db.insertProduct(req.body.name, req.body.price, req.body.description)
+    res.status(201).send('New product created');
+})
+
 export default productsRouter;

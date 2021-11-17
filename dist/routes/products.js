@@ -20,5 +20,9 @@ productsRouter.get('/', (_, res) => {
 productsRouter.get('/:productID', (req, res) => {
     res.send(req.product);
 });
+productsRouter.post('/', async (req, res) => {
+    await db_1.default.insertProduct(req.body.name, req.body.price, req.body.description);
+    res.status(201).send('New product created');
+});
 exports.default = productsRouter;
 //# sourceMappingURL=products.js.map
