@@ -1,4 +1,5 @@
-const db = require('./db/index');
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const registerRouter = require('./routes/register');
 const loginRouter = require('./routes/login');
 const cors = require('cors');
@@ -12,10 +13,11 @@ app.use(bodyParser.json());
 app.use(morgan('tiny'));
 app.use('/register', registerRouter);
 app.use('/login', loginRouter);
-app.get('/', (req, res, next) => {
+app.get('/', (_, res) => {
     res.status(200).send('This is a test');
 });
 app.listen(port, () => {
     console.log(`App listening on https://localhost:${port}`);
 });
+exports.default = app;
 //# sourceMappingURL=index.js.map

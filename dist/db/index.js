@@ -17,7 +17,7 @@ const insertUser = async (firstName, lastName, email, password) => {
     return await pool.query(`INSERT INTO users (firstName, lastName, email, password) 
     VALUES ('${firstName}', '${lastName}', '${email}', '${password}');`);
 };
-module.exports = {
+const loginUser = async (username) => module, exports = {
     query,
     doesUserExist,
     insertUser

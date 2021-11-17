@@ -1,5 +1,7 @@
+import { Response } from "express";
+
 //imports 
-const db = require('./db/index')
+// const db = require('./db/index')
 const registerRouter = require('./routes/register')
 const loginRouter = require('./routes/login')
 const cors = require('cors');
@@ -19,7 +21,7 @@ app.use(morgan('tiny'))
 app.use('/register', registerRouter);
 app.use('/login', loginRouter);
 
-app.get('/', (req, res, next) => {
+app.get('/', (_: Request, res: Response) => {
     res.status(200).send('This is a test');
 })
 
@@ -27,3 +29,5 @@ app.get('/', (req, res, next) => {
 app.listen(port, () => {
     console.log(`App listening on https://localhost:${port}`)
 })
+
+export default app;
