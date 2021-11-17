@@ -1,13 +1,12 @@
 //imports 
-const db = require('./db/index')
-const registerRouter = require('./routes/register')
-const loginRouter = require('./routes/login')
+import loginRouter from "./routes/login";
+import registerRouter from "./routes/register";
+import express from 'express';
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const morgan = require('morgan')
 
 //creating the express app
-const express = require('express')
 const app = express();
 const port = process.env.PORT || 4001;
 
@@ -19,11 +18,10 @@ app.use(morgan('tiny'))
 app.use('/register', registerRouter);
 app.use('/login', loginRouter);
 
-app.get('/', (req, res, next) => {
-    res.status(200).send('This is a test');
-})
 
 //listening
 app.listen(port, () => {
     console.log(`App listening on https://localhost:${port}`)
 })
+
+export default app;

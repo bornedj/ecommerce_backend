@@ -1,10 +1,9 @@
-// importing the database connection
-const db = require('../db');
+// imports
+import db from '../db/db'; 
+import { Router, Response, Request } from 'express';
+const registerRouter = Router();
 
-//importing the stuff for express
-const registerRouter = require('express').Router();
-
-registerRouter.post('/', async (req:any, res:any, next:any) => {
+registerRouter.post('/', async (req: Request, res: Response) => {
     const query = await db.doesUserExist(req.body.email);// searching for user currently in database
 
     if (query) {
@@ -16,4 +15,5 @@ registerRouter.post('/', async (req:any, res:any, next:any) => {
 
 })
 
-module.exports = registerRouter;// exporting the router
+export default registerRouter;
+// module.exports = registerRouter;// exporting the router
