@@ -1,6 +1,7 @@
 //imports
 const { Pool } = require('pg')
 
+
 //setting up the connection with postgres
 const pool = new Pool({
     user: "postgres",
@@ -16,12 +17,18 @@ const query = async (text: string, params: any, callback: any) => {
 
 //function to check if user exists
 const doesUserExist = async (userEmail: string) => {
-    const rowCount = await pool.query(`SELECT COUNT(*) FROM users WHERE email = ${userEmail}`)
-    return rowCount > 0;
-
+    const query = await pool.query(`SELECT * FROM users WHERE email = '${userEmail}';`)
+    return query.rowCount > 0;
 };
+
+const insertUser = async (firstName: string, lastName: string, email: string, password: string) => {
+    return await pool.query(`INSERT INTO users (firstName, lastName, email, password) 
+    VALUES ('${firstName}', '${lastName}', '${email}', '${password}');`);
+}
+
 
 module.exports = {
     query,
-    doesUserExist
+    doesUserExist,
+    insertUser
 }

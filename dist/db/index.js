@@ -10,11 +10,16 @@ const query = async (text, params, callback) => {
     return await pool.query(text, params, callback);
 };
 const doesUserExist = async (userEmail) => {
-    const rowCount = await pool.query(`SELECT COUNT(*) FROM users WHERE email = ${userEmail}`);
-    return rowCount > 0;
+    const query = await pool.query(`SELECT * FROM users WHERE email = '${userEmail}';`);
+    return query.rowCount > 0;
+};
+const insertUser = async (firstName, lastName, email, password) => {
+    return await pool.query(`INSERT INTO users (firstName, lastName, email, password) 
+    VALUES ('${firstName}', '${lastName}', '${email}', '${password}');`);
 };
 module.exports = {
     query,
-    doesUserExist
+    doesUserExist,
+    insertUser
 };
 //# sourceMappingURL=index.js.map
