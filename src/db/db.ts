@@ -25,6 +25,16 @@ const getAllUsers = async () => {
     return select.rows;
 }
 
+//select user by id
+const selectUserByID = async (userID: number) => {
+    const query = await pool.query(
+        `SELECT *
+        FROM users
+        WHERE id = ${userID};`
+    );
+    return query.rows[0];//only one result should return
+}
+
 //function to check if user exists
 const doesUserExist = async (userEmail: string) => {
     const query = await pool.query(`SELECT * FROM users WHERE email = '${userEmail}';`)
@@ -35,6 +45,14 @@ const doesUserExist = async (userEmail: string) => {
 const insertUser = async (firstName: string, lastName: string, email: string, password: string) => {
     return await pool.query(`INSERT INTO users (firstName, lastName, email, password) 
     VALUES ('${firstName}', '${lastName}', '${email}', '${password}');`);
+}
+
+const updateUser = async (id: number, firstName: string, lastName: string, password: string, email: string) => {
+    return await pool.query(
+        `UPDATE users
+        SET firstName = '${firstName}', lastName = '${lastName}', password = '${password}', email = '${email}'
+        WHERE id = ${id};`
+    )
 }
 
 //user login function returns a boolean value of whether they were logged in or not
@@ -98,7 +116,9 @@ const db = {
     insertProduct,
     updateProduct,
     deleteProduct,
-    getAllUsers
+    getAllUsers,
+    selectUserByID,
+    updateUser
 }
 
 export default db;

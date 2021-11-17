@@ -15,6 +15,12 @@ const getAllUsers = async () => {
     const select = await pool.query("SELECT * FROM users;");
     return select.rows;
 };
+const selectUserByID = async (userID) => {
+    const query = await pool.query(`SELECT *
+        FROM users
+        WHERE id = ${userID};`);
+    return query.rows[0];
+};
 const doesUserExist = async (userEmail) => {
     const query = await pool.query(`SELECT * FROM users WHERE email = '${userEmail}';`);
     return query.rowCount > 0;
@@ -22,6 +28,11 @@ const doesUserExist = async (userEmail) => {
 const insertUser = async (firstName, lastName, email, password) => {
     return await pool.query(`INSERT INTO users (firstName, lastName, email, password) 
     VALUES ('${firstName}', '${lastName}', '${email}', '${password}');`);
+};
+const updateUser = async (id, firstName, lastName, password, email) => {
+    return await pool.query(`UPDATE users
+        SET firstName = '${firstName}', lastName = '${lastName}', password = '${password}', email = '${email}'
+        WHERE id = ${id};`);
 };
 const loginUser = async (email, password) => {
     const select = await pool.query(`SELECT * FROM users WHERE email = '${email}' AND password = '${password}'`);
@@ -59,7 +70,9 @@ const db = {
     insertProduct,
     updateProduct,
     deleteProduct,
-    getAllUsers
+    getAllUsers,
+    selectUserByID,
+    updateUser
 };
 exports.default = db;
 //# sourceMappingURL=db.js.map
