@@ -24,5 +24,11 @@ productsRouter.post('/', async (req, res) => {
     await db_1.default.insertProduct(req.body.name, req.body.price, req.body.description);
     res.status(201).send('New product created');
 });
+productsRouter.put('/:productID', async (req, res) => {
+    if (req.product) {
+        await db_1.default.updateProduct(req.body.id, req.body.name, req.body.price, req.body.description);
+        res.status(204).send('Product updated');
+    }
+});
 exports.default = productsRouter;
 //# sourceMappingURL=products.js.map

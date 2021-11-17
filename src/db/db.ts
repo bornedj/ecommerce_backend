@@ -61,6 +61,15 @@ const insertProduct = async (name: string, price: number, description: string) =
     );
 }
 
+// update product
+const updateProduct = async (id: number, name: string, price: number, description: string) => {
+    await pool.query(
+        `UPDATE products
+        SET name = '${name}', price = ${price}, description = '${description}', modified = to_timestamp(${Date.now()})
+        WHERE id = ${id};`
+    )
+}
+
 // const loginUser = async (username: string, )
 const db = {
     query,
@@ -69,7 +78,8 @@ const db = {
     loginUser,
     getProductByID,
     getAllProducts,
-    insertProduct
+    insertProduct,
+    updateProduct
 }
 
 export default db;

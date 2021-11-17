@@ -32,4 +32,12 @@ productsRouter.post('/', async (req: Request, res: Response) => {
     res.status(201).send('New product created');
 })
 
+productsRouter.put('/:productID', async (req: GetProductByID, res: Response) => {
+    // if there is a product update it and update the database
+    if (req.product) {
+        await db.updateProduct(req.body.id, req.body.name, req.body.price, req.body.description);
+        res.status(204).send('Product updated');
+    }
+})
+
 export default productsRouter;

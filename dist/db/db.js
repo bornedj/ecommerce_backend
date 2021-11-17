@@ -35,6 +35,11 @@ const insertProduct = async (name, price, description) => {
     return await pool.query(`INSERT INTO products(name, price, description, created, modified) VALUES 
     ('${name}', ${price}, '${description}', to_timestamp(${Date.now()}), to_timestamp(${Date.now()}));`);
 };
+const updateProduct = async (id, name, price, description) => {
+    await pool.query(`UPDATE products
+        SET name = '${name}', price = ${price}, description = '${description}', modified = to_timestamp(${Date.now()})
+        WHERE id = ${id};`);
+};
 const db = {
     query,
     doesUserExist,
@@ -42,7 +47,8 @@ const db = {
     loginUser,
     getProductByID,
     getAllProducts,
-    insertProduct
+    insertProduct,
+    updateProduct
 };
 exports.default = db;
 //# sourceMappingURL=db.js.map
