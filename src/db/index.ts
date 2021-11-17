@@ -10,8 +10,18 @@ const pool = new Pool({
     port: 5432
 });
 
-module.exports = {
-    query: (text: string, params: any, callback: any) => {
-        return pool.query(text, params, callback);
-    }
+const query = async (text: string, params: any, callback: any) => {
+    return await pool.query(text, params, callback);
+}
+
+//function to check if user exists
+const doesUserExist = async (userEmail: string) => {
+    const rowCount = await pool.query(`SELECT COUNT(*) FROM users WHERE email = ${userEmail}`)
+    return rowCount > 0;
+
 };
+
+module.exports = {
+    query,
+    doesUserExist
+}
