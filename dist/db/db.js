@@ -74,6 +74,14 @@ const getCartByID = async (cartID) => {
         WHERE id = ${cartID};`);
     return query.rows[0];
 };
+const updateCart = async (cartID) => {
+    return await pool.query(`UPDATE cart
+        SET modified = (to_timestamp(${Date.now()}))
+        WHERE id = ${cartID};`);
+};
+const deleteCart = async (cartID) => {
+    return await pool.query(`DELETE FROM cart WHERE id = ${cartID};`);
+};
 const db = {
     query,
     doesUserExist,
@@ -90,7 +98,9 @@ const db = {
     deleteUser,
     getAllCarts,
     getCartByID,
-    insertCart
+    insertCart,
+    updateCart,
+    deleteCart
 };
 exports.default = db;
 //# sourceMappingURL=db.js.map

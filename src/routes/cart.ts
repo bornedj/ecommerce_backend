@@ -29,8 +29,29 @@ cartRouter.get('/', async (_: Request, res: Response) => {
     return;
 })
 
+// get cart by id
 cartRouter.get('/:cartID', (req: GetCartByID, res: Response) => {
     res.status(200).send(req.cart)
+})
+
+// update a cart
+cartRouter.put('/:cartID', async (req: GetCartByID, res: Response) => {
+    if (req && req.cart && req.cart.id) {
+        await db.updateCart(req.cart.id);
+        res.status(200).send(req.cart);
+        return req.cart;
+    }
+    return 'something went wrong update';
+})
+
+// delete cart
+cartRouter.delete('/:cartID', async (req: GetCartByID, res: Response) => {
+    if (req && req.cart && req.cart.id) {
+        await db.deleteCart(req.cart.id);
+        res.status(202).send('Cart deleted');
+        return;
+    }
+    return 'something went wrong';
 })
 
 export default cartRouter;

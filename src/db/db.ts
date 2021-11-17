@@ -140,6 +140,22 @@ const getCartByID = async (cartID: number) => {
     return query.rows[0];//returns cart specified by id
 }
 
+// update a cart
+const updateCart = async (cartID: number) => {
+    return await pool.query(
+        `UPDATE cart
+        SET modified = (to_timestamp(${Date.now()}))
+        WHERE id = ${cartID};`
+    );
+}
+
+//delete cart
+const deleteCart = async (cartID: number) => {
+    return await pool.query(
+        `DELETE FROM cart WHERE id = ${cartID};`
+    );
+};
+
 //get all items in cart
 
 // const loginUser = async (username: string, )
@@ -159,7 +175,9 @@ const db = {
     deleteUser,
     getAllCarts,
     getCartByID,
-    insertCart
+    insertCart,
+    updateCart,
+    deleteCart
 }
 
 export default db;

@@ -27,5 +27,21 @@ cartRouter.get('/', async (_, res) => {
 cartRouter.get('/:cartID', (req, res) => {
     res.status(200).send(req.cart);
 });
+cartRouter.put('/:cartID', async (req, res) => {
+    if (req && req.cart && req.cart.id) {
+        await db_1.default.updateCart(req.cart.id);
+        res.status(200).send(req.cart);
+        return req.cart;
+    }
+    return 'something went wrong update';
+});
+cartRouter.delete('/:cartID', async (req, res) => {
+    if (req && req.cart && req.cart.id) {
+        await db_1.default.deleteCart(req.cart.id);
+        res.status(202).send('Cart deleted');
+        return;
+    }
+    return 'something went wrong';
+});
 exports.default = cartRouter;
 //# sourceMappingURL=cart.js.map
