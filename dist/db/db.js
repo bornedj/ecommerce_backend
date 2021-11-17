@@ -34,6 +34,9 @@ const updateUser = async (id, firstName, lastName, password, email) => {
         SET firstName = '${firstName}', lastName = '${lastName}', password = '${password}', email = '${email}'
         WHERE id = ${id};`);
 };
+const deleteUser = async (id) => {
+    await pool.query(`DELETE FROM users WHERE id = ${id}`);
+};
 const loginUser = async (email, password) => {
     const select = await pool.query(`SELECT * FROM users WHERE email = '${email}' AND password = '${password}'`);
     return select.rowCount > 0;
@@ -56,8 +59,6 @@ const updateProduct = async (id, name, price, description) => {
         WHERE id = ${id};`);
 };
 const deleteProduct = async (id) => {
-    console.log(id);
-    console.log("here");
     await pool.query(`DELETE FROM products WHERE id = ${id}`);
 };
 const db = {
@@ -72,7 +73,8 @@ const db = {
     deleteProduct,
     getAllUsers,
     selectUserByID,
-    updateUser
+    updateUser,
+    deleteUser
 };
 exports.default = db;
 //# sourceMappingURL=db.js.map

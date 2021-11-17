@@ -35,4 +35,12 @@ userRouter.put('/:userID', async (req: GetUserByID, res: Response) => {
     res.status(204).send('user updated')
 })
 
+//delete user
+userRouter.delete('/:userID', async (req: GetUserByID, res: Response) => {
+    if (req && req.user && req.user.id){
+        await db.deleteUser(req.user.id);
+        res.status(202).send('User Deleted')
+    }
+})
+
 export default userRouter;

@@ -26,5 +26,11 @@ userRouter.put('/:userID', async (req, res) => {
     await db_1.default.updateUser(req.body.id, req.body.firstName, req.body.lastName, req.body.password, req.body.email);
     res.status(204).send('user updated');
 });
+userRouter.delete('/:userID', async (req, res) => {
+    if (req && req.user && req.user.id) {
+        await db_1.default.deleteUser(req.user.id);
+        res.status(202).send('User Deleted');
+    }
+});
 exports.default = userRouter;
 //# sourceMappingURL=users.js.map

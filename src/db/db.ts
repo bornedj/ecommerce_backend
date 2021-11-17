@@ -47,12 +47,20 @@ const insertUser = async (firstName: string, lastName: string, email: string, pa
     VALUES ('${firstName}', '${lastName}', '${email}', '${password}');`);
 }
 
+//update user information
 const updateUser = async (id: number, firstName: string, lastName: string, password: string, email: string) => {
     return await pool.query(
         `UPDATE users
         SET firstName = '${firstName}', lastName = '${lastName}', password = '${password}', email = '${email}'
         WHERE id = ${id};`
     )
+}
+
+//delete user
+const deleteUser = async (id: number) => {
+    await pool.query(
+        `DELETE FROM users WHERE id = ${id}`
+    );    
 }
 
 //user login function returns a boolean value of whether they were logged in or not
@@ -98,8 +106,6 @@ const updateProduct = async (id: number, name: string, price: number, descriptio
 
 //delete product
 const deleteProduct = async (id: number) => {
-    console.log(id)
-    console.log("here")
     await pool.query(
         `DELETE FROM products WHERE id = ${id}`
     );    
@@ -118,7 +124,8 @@ const db = {
     deleteProduct,
     getAllUsers,
     selectUserByID,
-    updateUser
+    updateUser,
+    deleteUser
 }
 
 export default db;
