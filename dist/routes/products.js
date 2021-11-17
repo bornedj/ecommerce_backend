@@ -30,5 +30,11 @@ productsRouter.put('/:productID', async (req, res) => {
         res.status(204).send('Product updated');
     }
 });
+productsRouter.delete('/:productID', async (req, res) => {
+    if (req.product) {
+        await db_1.default.deleteProduct(req.product.id);
+        res.status(202).send('Product Deleted');
+    }
+});
 exports.default = productsRouter;
 //# sourceMappingURL=products.js.map

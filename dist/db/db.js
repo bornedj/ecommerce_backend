@@ -36,9 +36,14 @@ const insertProduct = async (name, price, description) => {
     ('${name}', ${price}, '${description}', to_timestamp(${Date.now()}), to_timestamp(${Date.now()}));`);
 };
 const updateProduct = async (id, name, price, description) => {
-    await pool.query(`UPDATE products
+    return await pool.query(`UPDATE products
         SET name = '${name}', price = ${price}, description = '${description}', modified = to_timestamp(${Date.now()})
         WHERE id = ${id};`);
+};
+const deleteProduct = async (id) => {
+    console.log(id);
+    console.log("here");
+    await pool.query(`DELETE FROM products WHERE id = ${id}`);
 };
 const db = {
     query,
@@ -48,7 +53,8 @@ const db = {
     getProductByID,
     getAllProducts,
     insertProduct,
-    updateProduct
+    updateProduct,
+    deleteProduct
 };
 exports.default = db;
 //# sourceMappingURL=db.js.map

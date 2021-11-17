@@ -63,11 +63,20 @@ const insertProduct = async (name: string, price: number, description: string) =
 
 // update product
 const updateProduct = async (id: number, name: string, price: number, description: string) => {
-    await pool.query(
+    return await pool.query(
         `UPDATE products
         SET name = '${name}', price = ${price}, description = '${description}', modified = to_timestamp(${Date.now()})
         WHERE id = ${id};`
     )
+}
+
+//delete product
+const deleteProduct = async (id: number) => {
+    console.log(id)
+    console.log("here")
+    await pool.query(
+        `DELETE FROM products WHERE id = ${id}`
+    );    
 }
 
 // const loginUser = async (username: string, )
@@ -79,7 +88,8 @@ const db = {
     getProductByID,
     getAllProducts,
     insertProduct,
-    updateProduct
+    updateProduct,
+    deleteProduct
 }
 
 export default db;
