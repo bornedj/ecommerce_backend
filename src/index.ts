@@ -1,6 +1,7 @@
 //imports 
 import loginRouter from "./routes/login";
 import registerRouter from "./routes/register";
+import productsRouter from "./routes/products";
 import express from 'express';
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -17,6 +18,7 @@ app.use(morgan('tiny'))
 //adding the routes to the app
 app.use('/register', registerRouter);
 app.use('/login', loginRouter);
+app.use('/products', productsRouter)
 
 
 //listening

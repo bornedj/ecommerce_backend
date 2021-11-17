@@ -12,6 +12,7 @@ const pool = new Pool({
     port: 5432
 });
 
+//query builder function
 const query = async (text: string, params: any, callback: any) => {
     return await pool.query(text, params, callback);
 }
@@ -22,11 +23,13 @@ const doesUserExist = async (userEmail: string) => {
     return query.rowCount > 0;
 };
 
+//insert user function
 const insertUser = async (firstName: string, lastName: string, email: string, password: string) => {
     return await pool.query(`INSERT INTO users (firstName, lastName, email, password) 
     VALUES ('${firstName}', '${lastName}', '${email}', '${password}');`);
 }
 
+//user login function returns a boolean value of whether they were logged in or not
 const loginUser = async (email: string, password: string): Promise<boolean> => {
     const select = await pool.query(
         `SELECT * FROM users WHERE email = '${email}' AND password = '${password}'`
@@ -35,12 +38,30 @@ const loginUser = async (email: string, password: string): Promise<boolean> => {
     return select.rowCount > 0;
 }
 
+//select all products
+const getAllProducts = async () => {
+    const select = await pool.query(
+        "SELECT * FROM products;"
+    );
+    return select.rows;
+}
+
+//select product by id
+const getProductByID = async (productID: number): Promise<any> => {
+    const select = await pool.query(
+        `SELECT * FROM products WHERE id = ${productID}`
+        )
+    return select.rows[0] // return the unique product information
+}
+
 // const loginUser = async (username: string, )
 const db = {
     query,
     doesUserExist,
     insertUser,
-    loginUser
+    loginUser,
+    getProductByID,
+    getAllProducts
 }
 
 export default db;

@@ -23,11 +23,21 @@ const loginUser = async (email, password) => {
     const select = await pool.query(`SELECT * FROM users WHERE email = '${email}' AND password = '${password}'`);
     return select.rowCount > 0;
 };
+const getAllProducts = async () => {
+    const select = await pool.query("SELECT * FROM products;");
+    return select.rows;
+};
+const getProductByID = async (productID) => {
+    const select = await pool.query(`SELECT * FROM products WHERE id = ${productID}`);
+    return select.rows[0];
+};
 const db = {
     query,
     doesUserExist,
     insertUser,
-    loginUser
+    loginUser,
+    getProductByID,
+    getAllProducts
 };
 exports.default = db;
 //# sourceMappingURL=db.js.map
