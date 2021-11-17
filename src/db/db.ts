@@ -156,7 +156,26 @@ const deleteCart = async (cartID: number) => {
     );
 };
 
+//------------------------------------------------------------------------------
+//cart_item CRUD
+//------------------------------------------------------------------------------
+
+//create cart item
+const insertCartItem = async (productID: number, cartID: number) => {
+    return await pool.query(
+        `INSERT INTO cart_item (created, modified, product_id, cart_id)
+        VALUES (to_timestamp(${Date.now()}), to_timestamp(${Date.now()}), ${productID}, ${cartID});`
+    );
+}
+
 //get all items in cart
+const getAllCartItems = async (cartID: number) => {
+    const cartItemQuery = await pool.query(
+        `SELECT product_id FROM cart_item
+        WHERE cart_id = ${cartID};`
+    );
+    return cartItemQuery.rows;
+};
 
 // const loginUser = async (username: string, )
 const db = {
@@ -177,7 +196,9 @@ const db = {
     getCartByID,
     insertCart,
     updateCart,
-    deleteCart
+    deleteCart,
+    getAllCartItems,
+    insertCartItem
 }
 
 export default db;

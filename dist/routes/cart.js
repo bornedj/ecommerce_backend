@@ -5,7 +5,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const db_1 = __importDefault(require("../db/db"));
+const cartItem_1 = __importDefault(require("./cartItem"));
 const cartRouter = (0, express_1.Router)();
+cartRouter.use('/cartItem', cartItem_1.default);
 cartRouter.param('cartID', async (req, res, next, id) => {
     const query = await db_1.default.getCartByID(id);
     if (!query) {

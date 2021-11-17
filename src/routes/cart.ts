@@ -1,9 +1,12 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import db from '../db/db';
-import { GetCartByID } from 'src/types';
+import { GetCartByID } from '../types';
+import cartItemRouter from './cartItem';
 
 // create the router
 const cartRouter = Router(); 
+// router for handling cart items
+cartRouter.use('/cartItem', cartItemRouter);
 
 // cart params
 cartRouter.param('cartID', async (req: GetCartByID, res: Response, next: NextFunction, id: number) => {
