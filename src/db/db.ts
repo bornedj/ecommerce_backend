@@ -111,6 +111,37 @@ const deleteProduct = async (id: number) => {
     );    
 }
 
+//------------------------------------------------------------------------------
+//cart CRUD
+//------------------------------------------------------------------------------
+
+//create cart
+const insertCart = async () => {
+    await pool.query(
+        `INSERT INTO cart (created, modified)
+        VALUES (to_timestamp(${Date.now()}), to_timestamp(${Date.now()}));`
+    );
+}
+
+// get all carts
+const getAllCarts = async () => {
+    const query = await pool.query(
+        "SELECT * FROM cart"
+    );
+    return query.rows;
+}
+
+//get specific cart
+const getCartByID = async (cartID: number) => {
+    const query = await pool.query(
+        `SELECT * FROM cart
+        WHERE id = ${cartID};`
+    );
+    return query.rows[0];//returns cart specified by id
+}
+
+//get all items in cart
+
 // const loginUser = async (username: string, )
 const db = {
     query,
@@ -125,7 +156,10 @@ const db = {
     getAllUsers,
     selectUserByID,
     updateUser,
-    deleteUser
+    deleteUser,
+    getAllCarts,
+    getCartByID,
+    insertCart
 }
 
 export default db;

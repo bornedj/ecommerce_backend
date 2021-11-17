@@ -19,3 +19,11 @@ export interface GetUserByID extends Request {
         email: string
     }
 }
+
+export interface GetCartByID extends Request {
+    cart?: {
+        id: number,
+        created: Date,
+        modified: Date
+    }
+}
