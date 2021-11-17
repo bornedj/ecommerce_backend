@@ -11,7 +11,7 @@ registerRouter.post('/', async (req:any, res:any, next:any) => {
         res.status(200).send('User already exists')
     } else {
         await db.insertUser(req.body.firstName, req.body.lastName, req.body.email, req.body.password);
-        res.status(204).send(`New User: ${req.body.firstName} created.`);
+        res.status(201).send('New User Created');
     }
 
 })
