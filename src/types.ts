@@ -67,3 +67,24 @@ export interface UpdateOrderRequest extends Request {
         total: number
     }
 }
+
+export interface CreateOrderItemRequest extends Request {
+    body: {
+        quantity: number,
+        price: number,
+        orderID: number,
+        productID: number
+    }
+}
+
+export interface GetOrderItemByID extends Request {
+    orderItem?: {
+        quantity: number,
+        created: Date,
+        modified: Date,
+        price: number,
+        orderID: number,
+        productID: number,
+        id: number
+    }
+}

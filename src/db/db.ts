@@ -247,6 +247,43 @@ const deleteOrder = async (orderID: number) => {
     )
 }
 
+//------------------------------------------------------------------------------
+//order item CRUD
+//------------------------------------------------------------------------------
+
+//create order
+const insertOrderItem = async (quantity: number, price: number, orderID: number, productID: number) => {
+    return await pool.query(
+        `INSERT INTO order_item (quantity, price, order_id, product_id, created)
+        VALUES (${quantity}, ${price}, ${orderID}, ${productID}, to_timestamp(${Date.now()}));`
+    )
+}
+
+// read order by id
+const getOrderItemByID = async (orderItemID: number) => {
+    const query = await pool.query(
+        `SELECT * FROM order_item
+        WHERE id = ${orderItemID}`
+    );
+    return query.rows[0]// returning specific item;
+}
+
+// update order item
+const updateOrderItem = async (orderItemID: number, quantity: number, price: number) => {
+    return await pool.query(
+        `UPDATE order_item
+        SET modified = to_timestamp(${Date.now()}), quantity = ${quantity}, price = ${price}
+        WHERE id = ${orderItemID};`
+    );
+}
+
+// delete order item
+const deleteOrderItem = async (orderItemID: number) => {
+    return await pool.query(
+        `DELETE FROM order_item WHERE id = ${orderItemID}`
+    )
+}
+
 const db = {
     query,
     doesUserExist,
@@ -275,7 +312,11 @@ const db = {
     getAllOrders,
     getOrderByID,
     updateOrder,
-    deleteOrder
+    deleteOrder,
+    getOrderItemByID,
+    insertOrderItem,
+    updateOrderItem,
+    deleteOrderItem
 }
 
 export default db;

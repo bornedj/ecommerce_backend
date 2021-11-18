@@ -125,6 +125,23 @@ const updateOrder = async (orderID, status, total) => {
 const deleteOrder = async (orderID) => {
     return await pool.query(`DELETE FROM orders WHERE id = ${orderID}`);
 };
+const insertOrderItem = async (quantity, price, orderID, productID) => {
+    return await pool.query(`INSERT INTO order_item (quantity, price, order_id, product_id, created)
+        VALUES (${quantity}, ${price}, ${orderID}, ${productID}, to_timestamp(${Date.now()}));`);
+};
+const getOrderItemByID = async (orderItemID) => {
+    const query = await pool.query(`SELECT * FROM order_item
+        WHERE id = ${orderItemID}`);
+    return query.rows[0];
+};
+const updateOrderItem = async (orderItemID, quantity, price) => {
+    return await pool.query(`UPDATE order_item
+        SET modified = to_timestamp(${Date.now()}), quantity = ${quantity}, price = ${price}
+        WHERE id = ${orderItemID};`);
+};
+const deleteOrderItem = async (orderItemID) => {
+    return await pool.query(`DELETE FROM order_item WHERE id = ${orderItemID}`);
+};
 const db = {
     query,
     doesUserExist,
@@ -153,7 +170,11 @@ const db = {
     getAllOrders,
     getOrderByID,
     updateOrder,
-    deleteOrder
+    deleteOrder,
+    getOrderItemByID,
+    insertOrderItem,
+    updateOrderItem,
+    deleteOrderItem
 };
 exports.default = db;
 //# sourceMappingURL=db.js.map

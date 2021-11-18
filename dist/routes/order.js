@@ -5,7 +5,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const db_1 = __importDefault(require("../db/db"));
+const orderItem_1 = __importDefault(require("./orderItem"));
 const orderRouter = (0, express_1.Router)();
+orderRouter.use('/orderItem', orderItem_1.default);
 orderRouter.param('orderID', async (req, res, next, id) => {
     const order = await db_1.default.getOrderByID(id);
     if (!order) {

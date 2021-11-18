@@ -1,9 +1,11 @@
 import { Router, Response, Request, NextFunction } from "express";
 import db from "../db/db";
 import { CreateOrderRequest, GetOrderByID, UpdateOrderRequest } from "src/types";
+import orderItemRouter from "./orderItem";
 
 // create the order router
 const orderRouter = Router();
+orderRouter.use('/orderItem', orderItemRouter)
 
 // order params
 orderRouter.param('orderID', async (req: GetOrderByID, res: Response, next: NextFunction, id: number) => {
