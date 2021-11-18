@@ -10,6 +10,7 @@ const express_1 = __importDefault(require("express"));
 const users_1 = __importDefault(require("./routes/users"));
 const cart_1 = __importDefault(require("./routes/cart"));
 const order_1 = __importDefault(require("./routes/order"));
+const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
@@ -18,6 +19,12 @@ const port = process.env.PORT || 4001;
 app.use(cors());
 app.use(bodyParser.json());
 app.use(morgan('tiny'));
+app.use(express_1.default.static("public"));
+app.use('/api-docs', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(undefined, {
+    swaggerOptions: {
+        url: "/swagger.json"
+    }
+}));
 app.use('/register', register_1.default);
 app.use('/login', login_1.default);
 app.use('/products', products_1.default);
