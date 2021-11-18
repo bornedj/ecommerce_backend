@@ -5,6 +5,7 @@ import productsRouter from "./routes/products";
 import express from 'express';
 import userRouter from "./routes/users";
 import cartRouter from "./routes/cart";
+import orderRouter from "./routes/order";
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const morgan = require('morgan')
@@ -23,6 +24,7 @@ app.use('/login', loginRouter);
 app.use('/products', productsRouter)
 app.use('/users', userRouter)
 app.use('/cart', cartRouter)
+app.use('/order', orderRouter)
 
 
 //listening

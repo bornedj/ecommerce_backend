@@ -104,6 +104,27 @@ const updateCartItem = async (cartItemID, productID, cartID) => {
 const deleteCartItem = async (cartItemID) => {
     return await pool.query(`DELETE FROM cart_item WHERE id = ${cartItemID}`);
 };
+const insertOrder = async (userID, total, status) => {
+    return await pool.query(`INSERT INTO orders (userid, total, status, created)
+        VALUES (${userID}, ${total}, '${status}', to_timestamp(${Date.now()}));`);
+};
+const getAllOrders = async () => {
+    const query = await pool.query('SELECT * FROM orders;');
+    return query.rows;
+};
+const getOrderByID = async (orderID) => {
+    const query = await pool.query(`SELECT * FROM orders
+        WHERE id = ${orderID};`);
+    return query.rows[0];
+};
+const updateOrder = async (orderID, status, total) => {
+    return await pool.query(`UPDATE orders
+        SET total = ${total}, status = '${status}', modified = to_timestamp(${Date.now()})
+        WHERE id = ${orderID};`);
+};
+const deleteOrder = async (orderID) => {
+    return await pool.query(`DELETE FROM orders WHERE id = ${orderID}`);
+};
 const db = {
     query,
     doesUserExist,
@@ -127,7 +148,12 @@ const db = {
     insertCartItem,
     getCartItemById,
     updateCartItem,
-    deleteCartItem
+    deleteCartItem,
+    insertOrder,
+    getAllOrders,
+    getOrderByID,
+    updateOrder,
+    deleteOrder
 };
 exports.default = db;
 //# sourceMappingURL=db.js.map

@@ -9,6 +9,7 @@ const products_1 = __importDefault(require("./routes/products"));
 const express_1 = __importDefault(require("express"));
 const users_1 = __importDefault(require("./routes/users"));
 const cart_1 = __importDefault(require("./routes/cart"));
+const order_1 = __importDefault(require("./routes/order"));
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
@@ -22,6 +23,7 @@ app.use('/login', login_1.default);
 app.use('/products', products_1.default);
 app.use('/users', users_1.default);
 app.use('/cart', cart_1.default);
+app.use('/order', order_1.default);
 app.listen(port, () => {
     console.log(`App listening on https://localhost:${port}`);
 });

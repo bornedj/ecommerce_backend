@@ -37,3 +37,33 @@ export interface GetCartItemByID extends Request {
         id: number
     }
 }
+
+export interface CreateOrderRequest extends Request {
+    body: {
+      userID: number,
+      total: number,
+      status: string
+    }
+}
+
+export interface GetOrderByID extends Request {
+    order?: {
+        id: number,
+        userID: number,
+        total: number,
+        status: string,
+        created: Date,
+        modified: Date | null
+    }
+}
+
+export interface UpdateOrderRequest extends Request {
+    order?: {
+        id: number
+    }
+
+    body: {
+        status: string,
+        total: number
+    }
+}
