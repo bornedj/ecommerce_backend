@@ -186,7 +186,22 @@ const getCartItemById = async (cartItemID: number) => {
     return query.rows[0]// returning specific item;
 }
 
-// const loginUser = async (username: string, )
+// update specific cart item
+const updateCartItem = async (cartItemID: number, productID: number, cartID: number) => {
+    return await pool.query(
+        `UPDATE cart_item
+        SET modified = to_timestamp(${Date.now()}), product_id = ${productID}, cart_id = ${cartID}
+        WHERE id = ${cartItemID};`
+    );
+}
+
+// delete cart item
+const deleteCartItem = async (cartItemID: number) => {
+    return await pool.query(
+        `DELETE FROM cart_item WHERE id = ${cartItemID}`
+    )
+}
+
 const db = {
     query,
     doesUserExist,
@@ -208,7 +223,9 @@ const db = {
     deleteCart,
     getAllCartItems,
     insertCartItem,
-    getCartItemById
+    getCartItemById,
+    updateCartItem,
+    deleteCartItem
 }
 
 export default db;

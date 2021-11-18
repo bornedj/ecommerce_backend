@@ -27,3 +27,13 @@ export interface GetCartByID extends Request {
         modified: Date
     }
 }
+
+export interface GetCartItemByID extends Request {
+    cartItem?: {
+        created: Date,
+        modified: Date,
+        productID: number,
+        cartID: number,
+        id: number
+    }
+}
