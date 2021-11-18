@@ -58,9 +58,34 @@ cartRouter.post('/:cartID/checkout', async (req, res) => {
         const productIDs = await db_1.default.getAllCartItems(req.cart.id);
         const counts = {};
         productIDs.forEach((productID) => {
-            counts[productID.productID] = (counts[productID.productID] || 0) + 1;
+            const { product_id } = productID;
+            counts[product_id] = (counts[product_id] || 0) + 1;
         });
-        res.send(productIDs);
+        const productEntries = Object.entries(counts);
+        const orderItems = [];
+        for (let entry of productEntries) {
+            const [key, value] = entry;
+            const product = await db_1.default.getProductByID(Number(key));
+            product.quantity = value;
+            orderItems.push(product);
+        }
+        let total = 0;
+        orderItems.forEach(item => {
+            if (item && item.quantity) {
+                total = item.quantity * item.price + total;
+            }
+        });
+        const orderIDobj = await db_1.default.insertOrder(req.body.userID, total, 'New Order');
+        const { orderID } = orderIDobj;
+        for (let item of orderItems) {
+            if (item && item.quantity) {
+                console.log(item);
+                await db_1.default.insertOrderItem(item.quantity, item.price, orderID, item.id);
+                res.status(200).send('Checkout Complete');
+                return;
+            }
+        }
+        res.status(500).send('unknown error');
     }
 });
 exports.default = cartRouter;

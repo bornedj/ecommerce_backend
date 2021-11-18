@@ -90,5 +90,21 @@ export interface GetOrderItemByID extends Request {
 }
 
 export type ProductID  = {
-    productID: number 
+    product_id: number 
+}
+
+export interface CheckoutRequest extends GetCartByID {
+    body: {
+        userID: number
+    }
+}
+
+export type Product = {
+    id: number,
+    name: string,
+    price: number,
+    description: string,
+    created: Date,
+    modified?: Date,
+    quantity?: number
 }

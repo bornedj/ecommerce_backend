@@ -208,10 +208,14 @@ const deleteCartItem = async (cartItemID: number) => {
 
 //create order
 const insertOrder = async (userID: number, total: number, status: string) => {
-    return await pool.query(
+    await pool.query(
         `INSERT INTO orders (userid, total, status, created)
         VALUES (${userID}, ${total}, '${status}', to_timestamp(${Date.now()}));`
     )
+    const newID = await pool.query(
+        'SELECT MAX(id) as "orderID" FROM orders;'
+    ); 
+    return newID.rows[0];//auto-incrementing ids, last is the most recently made
 }
 
 //select all orders

@@ -1,6 +1,6 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import db from '../db/db';
-import { GetCartByID, ProductID } from '../types';
+import { CheckoutRequest, GetCartByID, Product, ProductID } from '../types';
 import cartItemRouter from './cartItem';
 
 // create the router
@@ -71,17 +71,49 @@ cartRouter.delete('/:cartID', async (req: GetCartByID, res: Response) => {
 })
 
 // checkout user
-cartRouter.post('/:cartID/checkout', async (req: GetCartByID, res: Response) => {
+cartRouter.post('/:cartID/checkout', async (req: CheckoutRequest, res: Response) => {
     if (req && req.cart && req.cart.id) {
         // if there's a cart, get all of its product ids array structured [{productID: number}]
         const productIDs: Array<ProductID>  = await db.getAllCartItems(req.cart.id)
         const counts: {[index: number]:number} = {};// will keep track of counts for orderItem creation
         // counting the number of repeat items for the order items
         productIDs.forEach((productID: ProductID) => {
-            counts[productID.productID] = (counts[productID.productID] || 0) + 1;
+            const {product_id} = productID; 
+            counts[product_id] = (counts[product_id] || 0) + 1;
         })
 
-        res.send(productIDs)
+        // getting the product info for each of the order items, keys = product_id, value = counts
+        const productEntries = Object.entries(counts)        
+        const orderItems: Array<Product> = [];// will store the information used to make order items
+        for (let entry of productEntries) {
+            const [key, value] = entry;
+            const product: Product = await db.getProductByID(Number(key));
+            product.quantity = value;
+            orderItems.push(product)
+        }
+
+        //getting the item total
+        let total = 0; 
+        orderItems.forEach(item => {
+            if (item && item.quantity) {
+                total = item.quantity * item.price + total;
+            }
+        })
+
+        //create the order
+        const orderIDobj = await db.insertOrder(req.body.userID, total, 'New Order');
+        const { orderID } = orderIDobj;
+
+        // create the order items
+        for (let item of orderItems) {
+            if (item && item.quantity) {
+                console.log(item)
+                await db.insertOrderItem(item.quantity, item.price, orderID, item.id)
+                res.status(200).send('Checkout Complete')
+                return;
+            }
+        }
+        res.status(500).send('unknown error')
     }
 })
 

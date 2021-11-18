@@ -105,8 +105,10 @@ const deleteCartItem = async (cartItemID) => {
     return await pool.query(`DELETE FROM cart_item WHERE id = ${cartItemID}`);
 };
 const insertOrder = async (userID, total, status) => {
-    return await pool.query(`INSERT INTO orders (userid, total, status, created)
+    await pool.query(`INSERT INTO orders (userid, total, status, created)
         VALUES (${userID}, ${total}, '${status}', to_timestamp(${Date.now()}));`);
+    const newID = await pool.query('SELECT MAX(id) as "orderID" FROM orders;');
+    return newID.rows[0];
 };
 const getAllOrders = async () => {
     const query = await pool.query('SELECT * FROM orders;');
