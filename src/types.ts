@@ -88,3 +88,7 @@ export interface GetOrderItemByID extends Request {
         id: number
     }
 }
+
+export type ProductID  = {
+    productID: number 
+}

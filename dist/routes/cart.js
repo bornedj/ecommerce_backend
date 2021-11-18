@@ -53,5 +53,15 @@ cartRouter.delete('/:cartID', async (req, res) => {
     }
     return 'something went wrong';
 });
+cartRouter.post('/:cartID/checkout', async (req, res) => {
+    if (req && req.cart && req.cart.id) {
+        const productIDs = await db_1.default.getAllCartItems(req.cart.id);
+        const counts = {};
+        productIDs.forEach((productID) => {
+            counts[productID.productID] = (counts[productID.productID] || 0) + 1;
+        });
+        res.send(productIDs);
+    }
+});
 exports.default = cartRouter;
 //# sourceMappingURL=cart.js.map

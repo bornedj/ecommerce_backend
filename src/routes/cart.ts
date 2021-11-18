@@ -1,6 +1,6 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import db from '../db/db';
-import { GetCartByID } from '../types';
+import { GetCartByID, ProductID } from '../types';
 import cartItemRouter from './cartItem';
 
 // create the router
@@ -68,6 +68,21 @@ cartRouter.delete('/:cartID', async (req: GetCartByID, res: Response) => {
         return;
     }
     return 'something went wrong';
+})
+
+// checkout user
+cartRouter.post('/:cartID/checkout', async (req: GetCartByID, res: Response) => {
+    if (req && req.cart && req.cart.id) {
+        // if there's a cart, get all of its product ids array structured [{productID: number}]
+        const productIDs: Array<ProductID>  = await db.getAllCartItems(req.cart.id)
+        const counts: {[index: number]:number} = {};// will keep track of counts for orderItem creation
+        // counting the number of repeat items for the order items
+        productIDs.forEach((productID: ProductID) => {
+            counts[productID.productID] = (counts[productID.productID] || 0) + 1;
+        })
+
+        res.send(productIDs)
+    }
 })
 
 export default cartRouter;
