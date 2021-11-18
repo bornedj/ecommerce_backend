@@ -91,6 +91,11 @@ const getAllCartItems = async (cartID) => {
         WHERE cart_id = ${cartID};`);
     return cartItemQuery.rows;
 };
+const getCartItemById = async (cartItemID) => {
+    const query = await pool.query(`SELECT * FROM cart_item
+        WHERE id = ${cartItemID}`);
+    return query.rows[0];
+};
 const db = {
     query,
     doesUserExist,
@@ -111,7 +116,8 @@ const db = {
     updateCart,
     deleteCart,
     getAllCartItems,
-    insertCartItem
+    insertCartItem,
+    getCartItemById
 };
 exports.default = db;
 //# sourceMappingURL=db.js.map

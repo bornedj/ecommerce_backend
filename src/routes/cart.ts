@@ -33,8 +33,21 @@ cartRouter.get('/', async (_: Request, res: Response) => {
 })
 
 // get cart by id
-cartRouter.get('/:cartID', (req: GetCartByID, res: Response) => {
-    res.status(200).send(req.cart)
+// cartRouter.get('/:cartID', (req: GetCartByID, res: Response) => {
+//     res.status(200).send(req.cart)
+// })
+
+// get all cart items
+cartRouter.get('/:cartID', async (req: GetCartByID, res: Response) => {
+    if (req && req.cart && req.cart.id) {
+        const cartItems = await db.getAllCartItems(req.cart.id) 
+        if (!cartItems) {
+            res.status(404).send('No Cart Found');
+            return;
+        }
+        res.status(200).send(cartItems);
+        return;
+    }
 })
 
 // update a cart

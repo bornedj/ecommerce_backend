@@ -177,6 +177,15 @@ const getAllCartItems = async (cartID: number) => {
     return cartItemQuery.rows;
 };
 
+// get specific cart item
+const getCartItemById = async (cartItemID: number) => {
+    const query = await pool.query(
+        `SELECT * FROM cart_item
+        WHERE id = ${cartItemID}`
+    );
+    return query.rows[0]// returning specific item;
+}
+
 // const loginUser = async (username: string, )
 const db = {
     query,
@@ -198,7 +207,8 @@ const db = {
     updateCart,
     deleteCart,
     getAllCartItems,
-    insertCartItem
+    insertCartItem,
+    getCartItemById
 }
 
 export default db;

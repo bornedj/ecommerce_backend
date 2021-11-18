@@ -26,8 +26,16 @@ cartRouter.get('/', async (_, res) => {
     res.status(200).send(query);
     return;
 });
-cartRouter.get('/:cartID', (req, res) => {
-    res.status(200).send(req.cart);
+cartRouter.get('/:cartID', async (req, res) => {
+    if (req && req.cart && req.cart.id) {
+        const cartItems = await db_1.default.getAllCartItems(req.cart.id);
+        if (!cartItems) {
+            res.status(404).send('No Cart Found');
+            return;
+        }
+        res.status(200).send(cartItems);
+        return;
+    }
 });
 cartRouter.put('/:cartID', async (req, res) => {
     if (req && req.cart && req.cart.id) {

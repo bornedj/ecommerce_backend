@@ -4,6 +4,11 @@ import db from "../db/db";
 // create the router
 const cartItemRouter = Router();
 
+// setup params
+// cartItemRouter.param('cartItemID', (req: Request, res: Response, next: NextFunction, id: number) => {
+//     const cartItem = db.
+// })
+
 // CRUD
 // create cart items
 cartItemRouter.post('/', async (req: Request, res: Response) => {
@@ -22,5 +27,8 @@ cartItemRouter.post('/', async (req: Request, res: Response) => {
     await db.insertCartItem(product.id, cart.id);
     res.status(200).send("Cart Item added")
 })
+
+
+// get specific cart item
 
 export default cartItemRouter;
